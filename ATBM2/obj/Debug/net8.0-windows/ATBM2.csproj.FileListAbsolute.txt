@@ -20,3 +20,4 @@ C:\Users\4j\OneDrive\Documents\ATBM\ATBM2\ATBM2\obj\Debug\net8.0-windows\ATBM2.g
 C:\Users\4j\OneDrive\Documents\ATBM\ATBM2\ATBM2\obj\Debug\net8.0-windows\ref\ATBM2.dll
 C:\Users\4j\OneDrive\Documents\ATBM\ATBM2\ATBM2\obj\Debug\net8.0-windows\Interop.Microsoft.Office.Interop.Word.dll
 C:\Users\4j\OneDrive\Documents\ATBM\ATBM2\ATBM2\obj\Debug\net8.0-windows\ATBM2.csproj.ResolveComReference.cache
+C:\Users\4j\OneDrive\Documents\ATBM\ATBM2\ATBM2\obj\Debug\net8.0-windows\ATBM2.sourcelink.json

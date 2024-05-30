@@ -88,6 +88,7 @@ namespace ATBM2
                 LoadWordDocument(filePath, rtbVBK);
             }
         }
+
         private void btn_fileVB_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
@@ -121,7 +122,7 @@ namespace ATBM2
             rtbDSA.Document.Blocks.Clear();
             rtbDSA.AppendText(BitConverter.ToString(hash).Replace("-", ""));
             rtbCK.Document.Blocks.Clear();
-            rtbCK.AppendText(Convert.ToBase64String(originalSignature));
+            rtbCK.AppendText(BytesToHex(originalSignature));
         }
 
         private void btn_chkSign_Click(object sender, RoutedEventArgs e)
@@ -131,10 +132,10 @@ namespace ATBM2
                 string chkText = GetTextFromRichTextBox(rtbChkVBK);
                 byte[] chkHash = ComputeHash(chkText);
                 rtbChkDSA.Document.Blocks.Clear();
-                rtbChkDSA.AppendText(BitConverter.ToString(chkHash).Replace("-", ""));
+                rtbChkDSA.AppendText(BytesToHex(chkHash));
 
                 string originalSignatureText = GetTextFromRichTextBox(rtbChkCK);
-                byte[] originalSignatureBytes = Convert.FromBase64String(originalSignatureText);
+                byte[] originalSignatureBytes = HexToBytes(originalSignatureText);
 
                 if (dsa.VerifyHash(chkHash, CryptoConfig.MapNameToOID("SHA1"), originalSignatureBytes))
                 {
@@ -192,7 +193,7 @@ namespace ATBM2
                     string filePath = saveFileDialog.FileName;
                     try
                     {
-                        string signatureText = Convert.ToBase64String(originalSignature);
+                        string signatureText = BytesToHex(originalSignature);
                         File.WriteAllText(filePath, signatureText);
                         MessageBox.Show("Chữ ký đã được lưu thành công.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
@@ -208,6 +209,28 @@ namespace ATBM2
             }
         }
 
+        private byte[] HexToBytes(string hex)
+        {
+            if (hex.Length % 2 != 0)
+                throw new ArgumentException("Invalid hex string");
+
+            byte[] bytes = new byte[hex.Length / 2];
+            for (int i = 0; i < hex.Length; i += 2)
+            {
+                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
+            }
+            return bytes;
+        }
+
+        private string BytesToHex(byte[] bytes)
+        {
+            StringBuilder sb = new StringBuilder(bytes.Length * 2);
+            foreach (byte b in bytes)
+            {
+                sb.Append(b.ToString("X2"));
+            }
+            return sb.ToString();
+        }
     }
 }
 
